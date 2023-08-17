@@ -31,7 +31,6 @@ export default async function handler(
   setCookie({ res }, '@ignitecall:userId', user.id, {
     maxAge: 60 * 60 * 24 * 7, // 7 days
     path: '/',
-    secure: true,
   })
 
   return res.status(201).json(user)
