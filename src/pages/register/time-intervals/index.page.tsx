@@ -10,8 +10,12 @@ import { ArrowRight } from 'phosphor-react'
 import { Controller, useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/router'
+
+import { api } from '@/lib/axios'
 
 import { getWeekDays } from '@/utils/get-week-days'
+import { convertTimeStringToMinutes } from '@/utils/conver-time-string-to-minutes'
 
 import { Container, Header } from '../styles'
 import {
@@ -22,8 +26,6 @@ import {
   IntervalInputs,
   IntervalItem,
 } from './styles'
-import { convertTimeStringToMinutes } from '@/utils/conver-time-string-to-minutes'
-import { api } from '@/lib/axios'
 
 const timeIntervalsFormSchema = z.object({
   intervals: z
@@ -64,6 +66,8 @@ type TimeIntervalsFormInput = z.input<typeof timeIntervalsFormSchema>
 type TimeIntervalsFormOutput = z.output<typeof timeIntervalsFormSchema>
 
 export default function TimeIntervals() {
+  const router = useRouter()
+
   const {
     register,
     handleSubmit,
@@ -96,9 +100,8 @@ export default function TimeIntervals() {
 
   async function handleSetTimeIntervals(data: TimeIntervalsFormOutput) {
     const { intervals } = data
-    const res = await api.post('/users/time-intervals', { intervals })
-
-    console.log(res.data)
+    await api.post('/users/time-intervals', { intervals })
+    await router.push('/register/update-profile')
   }
 
   return (

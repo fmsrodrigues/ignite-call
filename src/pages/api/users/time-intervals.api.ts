@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { getServerSession } from 'next-auth'
+import { z } from 'zod'
+
+import { prisma } from '@/lib/prisma'
 
 import { buildNextAuthOptions } from '../auth/[...nextauth].api'
-import { z } from 'zod'
-import { prisma } from '@/lib/prisma'
 
 const timeIntervalsBodySchema = z.object({
   intervals: z.array(
@@ -35,7 +36,7 @@ export default async function handler(
   const { intervals } = timeIntervalsBodySchema.parse(req.body)
 
   // could be a .createMany but sqlite doesn`t support it
-  await Promise.allSettled(
+  await Promise.all(
     intervals.map((interval) =>
       prisma.userTimeInterval.create({
         data: {
