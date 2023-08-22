@@ -7,6 +7,10 @@ export const globalStyles = globalCss({
     padding: 0,
   },
 
+  html: {
+    colorScheme: 'dark',
+  },
+
   body: {
     backgroundColor: '$gray900',
     color: '$gray100',
