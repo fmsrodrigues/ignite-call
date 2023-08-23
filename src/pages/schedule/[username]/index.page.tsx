@@ -16,7 +16,6 @@ interface ScheduleProps {
 }
 
 export default function Schedule({ user }: ScheduleProps) {
-  console.log(user.avatarUrl)
   return (
     <Container>
       <UserHeader>
